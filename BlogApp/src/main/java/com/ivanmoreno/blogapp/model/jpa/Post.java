@@ -1,6 +1,7 @@
 package com.ivanmoreno.blogapp.model.jpa;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
@@ -27,8 +30,8 @@ import lombok.ToString;
 @Builder // generates builder for the fields within
 @NoArgsConstructor // generates a no argument constructor
 @AllArgsConstructor // generates a constructor with all arguments
-@ToString(exclude = {"blog", "user"}) // generates toString method, skipping passed field as name
-@EqualsAndHashCode(exclude = {"blog", "user"}) // generates equals and hashCode methods, skipping passed fields
+@ToString(exclude = {"blog", "user", "files"}) // generates toString method, skipping passed field as name
+@EqualsAndHashCode(exclude = {"blog", "user", "files"}) // generates equals and hashCode methods, skipping passed fields
 @Entity
 public class Post implements Serializable{
 
@@ -55,4 +58,29 @@ public class Post implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "author_id")
 	private User user;
+	
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.REFRESH})
+	@JoinTable(name = "post_files",joinColumns = {@JoinColumn(name = "post_id", referencedColumnName = "id")},
+	inverseJoinColumns={@JoinColumn(name = "file_id", referencedColumnName = "id")})
+	private Set<File> files;
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
