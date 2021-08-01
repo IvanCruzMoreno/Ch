@@ -28,7 +28,6 @@ import lombok.ToString;
 @NoArgsConstructor // generates a no argument constructor
 @AllArgsConstructor // generates a constructor with all arguments
 @ToString(exclude = {"blog", "user"}) // generates toString method, skipping passed field as name
-
 @EqualsAndHashCode(exclude = {"blog", "user"}) // generates equals and hashCode methods, skipping passed fields
 @Entity
 public class Post implements Serializable{
@@ -48,12 +47,12 @@ public class Post implements Serializable{
 	// @Enumerated(EnumType.ORDINAL) // Use this otherwise to store it as integer
 	PostStatus postStatus;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "blog_id")
 	private Blog blog;
 	
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "author_id")
 	private User user;
 }

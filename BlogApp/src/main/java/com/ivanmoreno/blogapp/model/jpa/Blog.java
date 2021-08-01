@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,8 +28,6 @@ import lombok.ToString;
 @NoArgsConstructor // generates a no argument constructor
 @AllArgsConstructor // generates a constructor with all arguments
 @ToString(exclude = {"posts"}) // generates toString method, skipping passed field as name
-
-
 @EqualsAndHashCode(exclude = {"posts"}) // generates equals and hashCode methods, skipping passed fields
 @Entity
 public class Blog implements Serializable {
@@ -53,5 +52,10 @@ public class Blog implements Serializable {
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "blog")
 	private Set<Post> posts;
+	
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "blogId")
+	private Set<User> users;
 	
 }
