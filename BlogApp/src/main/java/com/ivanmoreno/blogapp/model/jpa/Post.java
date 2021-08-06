@@ -43,6 +43,9 @@ public class Post implements Serializable{
 	
 	private String content;
 	
+	@Type(type = "com.ivanmoreno.blogapp.constants.PgArrayType")
+    private String[] tags;
+	
 	@Column(name = "post_status")
 	@Type(type = "com.ivanmoreno.blogapp.constants.PgEnumType", 
 	      parameters = {@org.hibernate.annotations.Parameter(name = "enumClassName", 
